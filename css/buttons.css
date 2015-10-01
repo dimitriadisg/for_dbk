@@ -1,0 +1,69 @@
+.blue_button, .menu_tab{
+		display: inline;
+		background: #777 url('../images/button.png') repeat-x bottom;
+		border: none;
+		cursor: pointer;
+		font-weight: bold;
+		border-radius: 5px;
+		}
+.blue_button:hover, .menu_tab:hover {
+		background-position: 0 center;
+		}
+.blue_button:active, .menu_tab:active {
+		background-position: 0 top;
+		position: relative;
+		top: 1px;
+		
+		}
+
+.blue_button{
+		background-color: #2c6da0;
+		padding: 5px 10px;
+		color: #fff;
+		margin:2px;
+		text-shadow: 1px 1px #666;
+		}
+
+.menu_tab{
+
+	margin:0px;
+	padding:4px;
+	font-size:14px;
+	background-color:#CFCFCF;
+	color:#706F6F;
+	text-shadow: none;
+	font-family:"Courier New", Courier, monospace;
+	text-decoration: none;
+	}
+	
+.currency_input, .percentage_input {
+    background-color: #FFFFFF;
+	border: 0;
+	font-size:15px;
+}
+input.text_input, .paragraph_input, .currency_input input, .percentage_input input {
+    border: 0;
+	font-size:15px;
+}
+
+input [type=submit]{
+	margin:0 auto;
+}
+
+div.centered_submit
+{
+	width:800px;
+	text-align:center;
+}
+
+.currency_input input{
+	width:120px;
+}
+
+.text_input, .paragraph_input{
+	width:200px;
+}
+
+.percentage_input input {
+	width: 50px;
+}
