@@ -214,7 +214,7 @@
 			</div>
 			
 			<div class="options">
-				<img class="small_image" src="./images/left_arrow.png"></img>
+				<img class="small_image" src="https://cloud.githubusercontent.com/assets/14919500/10214555/0c857cc6-6822-11e5-82fb-2faf3e8b7822.png"></img>
 			</div>
 			
 			<div class="options">
@@ -223,7 +223,7 @@
 			</div>
 			
 			<div class="options">
-				<img class="small_image" src="./images/left_arrow.png"></img>
+				<img class="small_image" src="https://cloud.githubusercontent.com/assets/14919500/10214555/0c857cc6-6822-11e5-82fb-2faf3e8b7822.png"></img>
 			</div>
 			
 			<div class="options">
@@ -232,7 +232,7 @@
 			</div>
 			
 			<div class="options">
-				<img class="small_image" src="./images/left_arrow.png"></img>
+				<img class="small_image" src="https://cloud.githubusercontent.com/assets/14919500/10214555/0c857cc6-6822-11e5-82fb-2faf3e8b7822.png"></img>
 			</div>
 			
 			<div class="options">
@@ -241,17 +241,17 @@
 			</div>
 			
 			<div class="options">
-				<img class="square_image" src="./images/right_down_arrow.png"></img>
+				<img class="square_image" src="https://cloud.githubusercontent.com/assets/14919500/10214558/0ccce868-6822-11e5-8a9e-d83bbb2af91a.png"></img>
 			</div>
 			
 			<br>
 			<div class="options">
-				<img class="wide_image" src="./images/down_bracket.png"></img>
+				<img class="wide_image" src="https://cloud.githubusercontent.com/assets/14919500/10214562/0cd8f996-6822-11e5-9a88-4ccdd8311664.png"></img>
 			</div>
 			
 			<div class="options">
 				Marge '.$forms->marge_selector("marge", $marge, "marge_relation(this);").'<br>
-				<img class="square_image rotate270" src="./images/left_arrow.png"></img>
+				<img class="square_image rotate270" src="https://cloud.githubusercontent.com/assets/14919500/10214555/0c857cc6-6822-11e5-82fb-2faf3e8b7822.png"></img>
 			</div>
 			
 			<br>
@@ -275,7 +275,7 @@
 				</div>
 				
 				<div class="options">
-					<img class="vertical_image" src="./images/right_bracket.png"></img>
+					<img class="vertical_image" src="https://cloud.githubusercontent.com/assets/14919500/10214557/0cc66ef2-6822-11e5-9704-bef5a5101fb3.png"></img>
 				</div>
 				
 				<div class="options big visitors_indicator">
@@ -292,7 +292,7 @@
 				Marketing budget<br>
 				'.$forms->percentage_input("mb_percentage", $mb_percentage, -1, "mb_percentage_relation(this);").' = 
 				'.$forms->euro_input("mb_euro", $mb_euro, -1, "mb_euro_relation(this);").'
-				<img class="square_image rotate270" src="./images/left_arrow.png"></img><br>
+				<img class="square_image rotate270" src="https://cloud.githubusercontent.com/assets/14919500/10214555/0c857cc6-6822-11e5-82fb-2faf3e8b7822.png"></img><br>
 				Average CPC is<br>
 				<span class="big">&euro;'.$mb_euro.'/'.$buying_visitors.' visitors</span><br>
 				<span class="number_of_interest">'.$budget_per_visitor.' budget per visitor</span><br>
@@ -304,7 +304,7 @@
 			
 			<br>
 			<div class="options">
-				<img class="square_image" src="./images/down_right_arrow.png"></img>
+				<img class="square_image" src="https://cloud.githubusercontent.com/assets/14919500/10214556/0caf8282-6822-11e5-812c-216c42176cc2.png"></img>
 			</div>
 			
 			<div class="options paragraph">
@@ -312,7 +312,7 @@
 			</div>
 			
 			<div class="options">
-				<img class="small_image rotate180" src="./images/left_arrow.png"></img>
+				<img class="small_image rotate180" src="https://cloud.githubusercontent.com/assets/14919500/10214555/0c857cc6-6822-11e5-82fb-2faf3e8b7822.png"></img>
 			</div>
 			
 			<div class="options paragraph">
@@ -320,7 +320,7 @@
 			</div>
 			
 			<div class="options">
-				<img class="small_image rotate180" src="./images/left_arrow.png"></img>
+				<img class="small_image rotate180" src="https://cloud.githubusercontent.com/assets/14919500/10214555/0c857cc6-6822-11e5-82fb-2faf3e8b7822.png"></img>
 			</div>
 			<br>
 			<br>
