@@ -1,0 +1,163 @@
+html, body{
+    margin: 1px 0px 0px 0px;
+    padding: 0;
+}
+body {background-color:gray;font-family: Verdana, Arial;font-size: 12px; line-height: 15px;}
+
+p{
+	text-align:justify;
+}
+
+#all{
+	width:1000px;
+	margin:0 auto;
+	background-color: #eee;
+	border-radius: 15px;
+	border: thin solid;
+	padding: 10px;
+}
+
+#footer {
+	clear:both;
+	}
+	
+#footer p{
+	text-align:center;
+	font-size:10px;
+	}
+	
+hr {
+
+	color:#88AAC9;
+	height:4px;
+	background-color:#88AAC9;
+}
+	
+#container{
+	min-height:400px;
+	width:1000px;
+	}
+	
+div.options{
+	vertical-align:top;
+	line-height: 30px;
+	display: inline-block;
+	}
+
+div.visitors_indicator{
+	width:220px;
+	height:140px;
+	background-image: url("../images/circle.png");
+	background-repeat: no-repeat;
+	background-size: contain;
+	margin:0 auto;
+	text-align:center;
+	padding-top:80px;
+}
+
+.right_end{
+	float:right;
+	padding-right:5px;
+	width:235px;
+	text-align:left;
+}
+
+.bordered{
+	border:solid;
+	border-color: #00FF00;
+	width:200px;
+	padding-left:2px;
+	padding-right:2px;
+}
+
+.paragraph{
+	width:260px;
+	padding-left:2px;
+	padding-right:2px;
+}
+
+.positive{
+	color:blue;
+	}
+
+.negative{
+	color:red;
+	}
+
+.big, .big * {
+	font-size:25px !important;
+	margin-bottom:5px;
+	line-height:30px;
+}
+
+.small_image{
+	width:80px;
+	height:50px;
+}
+
+.square_image{
+	width:50px;
+	height:50px;
+}
+
+.vertical_image{
+	width:80px;
+	height:180px;
+}
+
+.wide_image{
+	width: 800px;
+	height: 80px;
+}
+.number_of_interest {
+	color: #0000FF;
+	font-weight:bold;
+}
+.subheader{
+	text-align: left;
+	font-size: 18px;
+	text-decoration: underline;
+	}
+	
+.keywords_table { 
+	border:1px solid #D9D5BE; 
+	background:white; 
+	width:800px;
+	margin-top:2px;
+	margin:0 auto;
+	border-collapse:collapse;
+	table-layout:fixed;
+}
+.keywords_table td{ 
+	border:1px solid #D9D5BE; 
+	overflow: hidden;
+	height:25px;
+}
+
+.keywords_table th{ 
+	font-size:15px;
+}
+
+.rotate90 {
+	-webkit-transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+	-o-transform: rotate(90deg);
+	-ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.rotate180 {
+	-webkit-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
+	-ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.rotate270 {
+	-webkit-transform: rotate(270deg);
+	-moz-transform: rotate(270deg);
+	-o-transform: rotate(270deg);
+	-ms-transform: rotate(270deg);
+    transform: rotate(270deg);
+}
