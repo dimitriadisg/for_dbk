@@ -1,76 +1,25 @@
 <?php
 
+	//Specify a fixed way to identify custom classes
 	function __autoload($which_class)
 	{
 		include_once 'inc/class.'.$which_class.'.inc.php';
 	}
 	
-	function roundup($float_input)
-	{
-		$result = $float_input;
-		if($float_input - ((int)$float_input))
-		{
-			$result = (int)($float_input + 1);
-		}
-		
-		return $result;
-	}
-	
-	//declare constants
-	define("DEFAULT_INCOME", 100000.0);
-	define("DEFAULT_PVALUE", 10000.0);
-	define("DEFAULT_BPERCENTAGE", 1.0);
-	define("DEFAULT_SURL", "webshop.nl");
-	define("DEFAULT_KEYS", "");
-	define("DEFAULT_MARGE", 0);
-	define("DEFAULT_DIRECT", 20);
-	define("DEFAULT_GOOGLE", 25);
-	define("DEFAULT_ADWORDS", 35);
-	define("DEFAULT_LINKS", 10);
-	define("DEFAULT_UNPAID", 10);
-	define("DEFAULT_ADDITIONAL", 0);
-	
+	include 'inc/helpers.php';
 	
 	//Input validation
-	$monthly_income = DEFAULT_INCOME; //default value
-	if(isset($_POST["monthly_income"]))
-	{
-		$monthly_income = (double)round($_POST['monthly_income'],2);
-	}
+	caa_homonymous_fi($monthly_income, "monthly_income", DEFAULT_INCOME);
+	caa_homonymous_fi($product_value, "product_value", DEFAULT_PVALUE);
+	caa_homonymous_fi($conversion_percentage, "conversion_percentage", DEFAULT_CPERCENTAGE);
+	caa_homonymous_fi($shop_url, "shop_url", DEFAULT_SURL);
+	caa_homonymous_fi($keywords, "keywords", DEFAULT_KEYS);
+	caa_homonymous_fi($marge, "marge", DEFAULT_MARGE);
 	
-	$product_value = DEFAULT_PVALUE; //default value
-	if(isset($_POST["product_value"]))
-	{
-		$product_value = (double)round($_POST['product_value'],2);
-	}
-	
-	$conversion_percentage = DEFAULT_BPERCENTAGE; //default value
-	if(isset($_POST["conversion_percentage"]))
-	{
-		$conversion_percentage = (float)round($_POST['conversion_percentage'],2);
-	}
-	
-	$shop_url = DEFAULT_SURL; //default value
-	if(isset($_POST["shop_url"]))
-	{
-		$shop_url = $_POST['shop_url'];
-	}
-	
-	$keywords = DEFAULT_KEYS; //default value
-	if(isset($_POST["keywords"]))
-	{
-		$keywords = $_POST['keywords'];
-	}
-	
-	$marge = DEFAULT_MARGE; //default value
-	if(isset($_POST["marge"]))
-	{
-		$marge = $_POST["marge"];
-	}
-	
-	$mb_percentage = 0;
-	$mb_euro = 0;
-	if(isset($_POST["mb_percentage"]))
+	//Validate the marketing budget input
+	$mb_percentage = DEFAULT_MB_PERCENTAGE;
+	$mb_euro = DEFAULT_MB_EURO;
+	if(isset($_POST["mb_percentage"]) && $_POST["mb_percentage"]!='')
 	{
 		$mb_percentage = round($_POST["mb_percentage"],2);
 		$mb_euro = round($monthly_income*$mb_percentage/100,2);
@@ -88,56 +37,35 @@
 		$mb_euro = round($monthly_income*$mb_percentage/100);
 	}
 	
-	$direct_percentage = DEFAULT_DIRECT; //default value
-	if(isset($_POST["direct_percentage"]))
-	{
-		$direct_percentage = round($_POST["direct_percentage"],2);
-	}
+	caa_homonymous_fi($direct_percentage, "direct_percentage", DEFAULT_DIRECT);
+	caa_homonymous_fi($google_percentage, "google_percentage", DEFAULT_GOOGLE);
+	caa_homonymous_fi($adwords_percentage, "adwords_percentage", DEFAULT_ADWORDS);
+	caa_homonymous_fi($links_percentage, "links_percentage", DEFAULT_LINKS);
+	caa_homonymous_fi($unpaid_percentage, "unpaid_percentage", DEFAULT_UNPAID);
+	caa_homonymous_fi($additional_percentage, "additional_percentage", DEFAULT_ADDITIONAL);
 	
-	$google_percentage = DEFAULT_GOOGLE; //default value
-	if(isset($_POST["google_percentage"]))
-	{
-		$google_percentage = round($_POST["google_percentage"],2);
-	}
-	
-	$adwords_percentage = DEFAULT_ADWORDS; //default value
-	if(isset($_POST["adwords_percentage"]))
-	{
-		$adwords_percentage = round($_POST["adwords_percentage"],2);
-	}
-	
-	$links_percentage = DEFAULT_LINKS;
-	if(isset($_POST["links_percentage"]))
-	{
-		$links_percentage = round($_POST["links_percentage"],2);
-	}
-	
-	$unpaid_percentage = DEFAULT_UNPAID; //default value
-	if(isset($_POST["unpaid_percentage"]))
-	{
-		$unpaid_percentage = round($_POST["unpaid_percentage"],2);
-	}
-	
-	$additional_percentage = DEFAULT_ADDITIONAL; //default value
-	if(isset($_POST["additional_percentage"]))
-	{
-		$additional_percentage = round($_POST["additional_percentage"],2);
-	}
-	
+	//Print the page's head and menu (same for all pages of this webplace)
 	$strct = new Structure($shop_url,"Calculate the investment return of ".$shop_url);
 	echo $strct->get_head();
 	echo $strct->get_menu();
 	
 	//Body here
 	
+	//Show a list of errors if any
+	print('<ul id="error_list" class="negative">');
+	
+	//Check possible error 
 	$sum_percentage = $direct_percentage + $google_percentage + $adwords_percentage + $links_percentage + $unpaid_percentage + $additional_percentage;
 	if($sum_percentage != 100)
 	{
-		print('<ul><li><span class="negative">The sum of the visitors percentages must be 100%. However it is '.$sum_percentage.'%</span></li></ul>');
+		print('<li id="percentage_sum_error">The sum of the visitors percentages must be 100%. However, in this case, it is '.$sum_percentage.'%</li>');
 	}
 	
+	print('</ul>');
+	//End of errors list
+	
 	//Get keywords virtual data
-	$keys = explode(',',$keywords);
+	$keys = explode(',',$keywords); //Keywords are seperated by comma, get an array of keywords
 	$k_CPC = array();
 	$k_volume = array();
 	$total_volume = 0;
@@ -145,16 +73,25 @@
 	$table_contents = "";
 	
 	srand(1); //make a static seed
-	$data_exists = false; //Check if there is at least one keyword used as search data
+	$data_exists = false; //A boolean to check if there is at least one keyword used as search data
+	
+	//Iterate through the keywords array and gather the necessary information
 	foreach($keys as $i => $value)
 	{
 		if(trim($value) != '')
 		{
 			$data_exists = true;
-			$k_CPC[$i] = rand(5, 30)/10.0;
-			$k_volume[$i] = rand(0,200000000);
+			$k_CPC[$i] = rand(5, 30)/10.0; //Produce static values
+			$k_volume[$i] = rand(0,200000000); //Produce static values
+			
+			//Sum all the CPCs and later we'll divide this with the total volume
 			$average_CPC += $k_CPC[$i]*$k_volume[$i];
+			
+			//Sum all the search volumes
 			$total_volume += $k_volume[$i];
+			
+			//Construct a table to show the data for each keyword
+			//We'll print this table later.
 			$table_contents .= 
 			'
 			<tr>
@@ -165,15 +102,34 @@
 			';
 		}
 	}
+	
+	//Check if valid keywords were processed
 	if($data_exists)
 	{
 		$average_CPC = round($average_CPC/$total_volume, 2);
 	}
 	
-	$orders_demand = (int)($monthly_income/$product_value);
-	$visitors = roundup($orders_demand/($conversion_percentage/100.0));
+	//Calculate the Least-orders demand
+	$orders_demand = 0;
+	if($product_value > 0)
+	{
+		$orders_demand = (int)($monthly_income/$product_value);
+	}
+	
+	//Calculate the total visitors
+	$visitors = 0;
+	if($conversion_percentage > 0)
+	{
+		$visitors = roundup($orders_demand/($conversion_percentage/100.0));
+	}
+	
+	//Calculate the possible visitors from adwords
 	$adwords_visitors = roundup($adwords_percentage/100.0 * $visitors);
+	
+	//We assume a fraction of 10% of the total volume search
 	$volume_of_interest = (int)($total_volume/10);
+	
+	//Generate a response to the user about the reliability of this probe
 	$adwords_message = "";
 	$possibility = "";
 	
@@ -188,9 +144,18 @@
 		$possibility = "negative";
 	}
 	
+	
 	$buyers_percentage = $adwords_percentage + $links_percentage;
 	$buying_visitors = round($visitors*$buyers_percentage/100);
-	$budget_per_visitor = round($mb_euro/$buying_visitors,2);
+	
+	//Calculate the budget per visitor
+	$budget_per_visitor = 0;
+	if($buying_visitors > 0)
+	{
+		$budget_per_visitor = round($mb_euro/$buying_visitors,2);
+	}
+	
+	//Generate a response for the user about the profit of this probe
 	$budget_message = "";
 	$sufficiency = "";
 
@@ -211,14 +176,14 @@
 	
 	print
 	('
-		<form method="POST">
+		<form  autocomplete="off" method="POST">
 			<div class="options">
-				Conversion percentage<br>
-				'.$forms->percentage_input("conversion_percentage", $conversion_percentage, DEFAULT_BPERCENTAGE).'
+				'.$forms->label("conversion_percentage","Conversion percentage").'<br>
+				'.$forms->percentage_input("conversion_percentage", $conversion_percentage, DEFAULT_CPERCENTAGE).'
 			</div>
 			
 			<div class="options">
-				<img class="small_image" src="./images/left_arrow.png"></img>
+				<img class="small_image" src="https://cloud.githubusercontent.com/assets/14919500/10214555/0c857cc6-6822-11e5-82fb-2faf3e8b7822.png"></img>
 			</div>
 			
 			<div class="options">
@@ -227,59 +192,59 @@
 			</div>
 			
 			<div class="options">
-				<img class="small_image" src="./images/left_arrow.png"></img>
+				<img class="small_image" src="https://cloud.githubusercontent.com/assets/14919500/10214555/0c857cc6-6822-11e5-82fb-2faf3e8b7822.png"></img>
 			</div>
 			
 			<div class="options">
-				Average product value<br>
+				'.$forms->label("product_value","Average product value").'<br>
 				'.$forms->euro_input("product_value", $product_value, DEFAULT_PVALUE).'
 			</div>
 			
 			<div class="options">
-				<img class="small_image" src="./images/left_arrow.png"></img>
+				<img class="small_image" src="https://cloud.githubusercontent.com/assets/14919500/10214555/0c857cc6-6822-11e5-82fb-2faf3e8b7822.png"></img>
 			</div>
 			
 			<div class="options">
-				Aimed income per month<br>
+				'.$forms->label("monthly_income","Aimed income per month").'<br>
 				'.$forms->euro_input("monthly_income", $monthly_income, DEFAULT_INCOME).'
 			</div>
 			
 			<div class="options">
-				<img class="square_image" src="./images/right_down_arrow.png"></img>
+				<img class="square_image" src="https://cloud.githubusercontent.com/assets/14919500/10214558/0ccce868-6822-11e5-8a9e-d83bbb2af91a.png"></img>
 			</div>
 			
 			<br>
 			<div class="options">
-				<img class="wide_image" src="./images/down_bracket.png"></img>
+				<img class="wide_image" src="https://cloud.githubusercontent.com/assets/14919500/10214562/0cd8f996-6822-11e5-9a88-4ccdd8311664.png"></img>
 			</div>
 			
 			<div class="options">
-				Marge '.$forms->marge_selector("marge", $marge, "marge_relation(this);").'<br>
-				<img class="square_image rotate270" src="./images/left_arrow.png"></img>
+				'.$forms->label("marge","Marge").' '.$forms->marge_selector("marge", $marge, "marge_relation(this);").'<br>
+				<img class="square_image rotate270" src="https://cloud.githubusercontent.com/assets/14919500/10214555/0c857cc6-6822-11e5-82fb-2faf3e8b7822.png"></img>
 			</div>
 			
 			<br>
 			<div class="options">
 				<div class="options">
-					Direct:<br>
-					Google:<br>
-					Adwords:<br>
-					Link Referals: <br>
-					Unpaid: <br>
-					Additional: <br>
+					'.$forms->label("direct_percentage","Direct:").' <br>
+					'.$forms->label("google_percentage","Google:").' <br>
+					'.$forms->label("adwords_percentage","Adwords:").' <br>
+					'.$forms->label("links_percentage","Link Referals:").' <br>
+					'.$forms->label("unpaid_percentage","Unpaid:").' <br>
+					'.$forms->label("additional_percentage","Additional:").' <br>
 				</div>
 				
 				<div class="options">
-					'.$forms->percentage_input("direct_percentage", $direct_percentage, DEFAULT_DIRECT).'<br>
-					'.$forms->percentage_input("google_percentage", $google_percentage, DEFAULT_GOOGLE).'<br>
-					'.$forms->percentage_input("adwords_percentage", $adwords_percentage, DEFAULT_ADWORDS).'<br>
-					'.$forms->percentage_input("links_percentage", $links_percentage, DEFAULT_LINKS).'<br>
-					'.$forms->percentage_input("unpaid_percentage", $unpaid_percentage, DEFAULT_UNPAID).'<br>
-					'.$forms->percentage_input("additional_percentage", $additional_percentage, DEFAULT_ADDITIONAL).'<br>
+					'.$forms->percentage_input("direct_percentage", $direct_percentage, DEFAULT_DIRECT, "sum_to_100();").'<br>
+					'.$forms->percentage_input("google_percentage", $google_percentage, DEFAULT_GOOGLE, "sum_to_100();").'<br>
+					'.$forms->percentage_input("adwords_percentage", $adwords_percentage, DEFAULT_ADWORDS, "sum_to_100();").'<br>
+					'.$forms->percentage_input("links_percentage", $links_percentage, DEFAULT_LINKS, "sum_to_100();").'<br>
+					'.$forms->percentage_input("unpaid_percentage", $unpaid_percentage, DEFAULT_UNPAID, "sum_to_100();").'<br>
+					'.$forms->percentage_input("additional_percentage", $additional_percentage, DEFAULT_ADDITIONAL, "sum_to_100();").'<br>
 				</div>
 				
 				<div class="options">
-					<img class="vertical_image" src="./images/right_bracket.png"></img>
+					<img class="vertical_image" src="https://cloud.githubusercontent.com/assets/14919500/10214557/0cc66ef2-6822-11e5-9704-bef5a5101fb3.png"></img>
 				</div>
 				
 				<div class="options big visitors_indicator">
@@ -293,10 +258,10 @@
 				<span class="'.$possibility.'">As a result, the scenario is '.$adwords_message.'</span></p>
 			</div>
 			<div class="options right_end">
-				Marketing budget<br>
-				'.$forms->percentage_input("mb_percentage", $mb_percentage, -1, "mb_percentage_relation(this);").' = 
-				'.$forms->euro_input("mb_euro", $mb_euro, -1, "mb_euro_relation(this);").'
-				<img class="square_image rotate270" src="./images/left_arrow.png"></img><br>
+				'.$forms->label("mb_percentage","Marketing budget").$forms->label("mb_euro","Marketing budget","invisible").'<br>
+				'.$forms->percentage_input("mb_percentage", $mb_percentage, DEFAULT_MB_PERCENTAGE, "mb_percentage_relation(this);").' = 
+				'.$forms->euro_input("mb_euro", $mb_euro, DEFAULT_MB_EURO, "mb_euro_relation(this);").'
+				<img class="square_image rotate270" src="https://cloud.githubusercontent.com/assets/14919500/10214555/0c857cc6-6822-11e5-82fb-2faf3e8b7822.png"></img><br>
 				Average CPC is<br>
 				<span class="big">&euro;'.$mb_euro.'/'.$buying_visitors.' visitors</span><br>
 				<span class="number_of_interest">'.$budget_per_visitor.' budget per visitor</span><br>
@@ -308,7 +273,7 @@
 			
 			<br>
 			<div class="options">
-				<img class="square_image" src="./images/down_right_arrow.png"></img>
+				<img class="square_image" src="https://cloud.githubusercontent.com/assets/14919500/10214556/0caf8282-6822-11e5-812c-216c42176cc2.png"></img>
 			</div>
 			
 			<div class="options paragraph">
@@ -316,7 +281,7 @@
 			</div>
 			
 			<div class="options">
-				<img class="small_image rotate180" src="./images/left_arrow.png"></img>
+				<img class="small_image rotate180" src="https://cloud.githubusercontent.com/assets/14919500/10214555/0c857cc6-6822-11e5-82fb-2faf3e8b7822.png"></img>
 			</div>
 			
 			<div class="options paragraph">
@@ -324,7 +289,7 @@
 			</div>
 			
 			<div class="options">
-				<img class="small_image rotate180" src="./images/left_arrow.png"></img>
+				<img class="small_image rotate180" src="https://cloud.githubusercontent.com/assets/14919500/10214555/0c857cc6-6822-11e5-82fb-2faf3e8b7822.png"></img>
 			</div>
 			<br>
 			<br>
@@ -332,6 +297,7 @@
 			<br>
 			<div class="centered_submit">
 				'.$forms->hidden("keywords", $keywords).'
+				'.$forms->hidden("shop_url", $shop_url).'
 				'.$forms->submit("Re-process input").'
 			</div>
 		</form>
@@ -353,5 +319,6 @@
 	
 	//End body
 	
+	//Print the page's footer (same for all pages of this webplace)
 	echo $strct->get_footer();
 ?>
