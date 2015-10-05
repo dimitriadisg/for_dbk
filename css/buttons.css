@@ -67,3 +67,7 @@ div.centered_submit
 .percentage_input input {
 	width: 50px;
 }
+
+.invisible label {
+	display:none;
+}
