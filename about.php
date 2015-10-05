@@ -1,18 +1,17 @@
 <?php
 
+	//Specify a fixed way to identify custom classes
 	function __autoload($which_class)
 	{
 		include_once 'inc/class.'.$which_class.'.inc.php';
 	}
 	
+	include 'inc/helpers.php';
+	
+	//Print the page's head and menu (same for all pages of this webplace)
 	$strct = new Structure("About","Some information you might be interested in about me.");
 	echo $strct->get_head();
 	echo $strct->get_menu();
-	
-	define("MY_SKYPE","dimitriadis.h.george");
-	define("MY_MAIL","dimitriadisg@outlook.com");
-	define("GITHUB_HOME","https://github.com/");
-	define("MY_GITHUB","dimitriadisg");
 	
 	//Body here
 	print
@@ -34,5 +33,6 @@
 	');
 	//End body
 	
+	//Print the page's footer (same for all pages of this webplace)
 	echo $strct->get_footer();
 ?>
